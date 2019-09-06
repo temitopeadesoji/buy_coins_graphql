@@ -3,6 +3,7 @@ const express = require("express");
 const unirest = require("unirest");
 const express_graphql = require("express-graphql");
 const { buildSchema } = require("graphql");
+const appPort = process.env.PORT || 3000;
 
 // GraphQL Schema
 var schema = buildSchema(`
@@ -74,6 +75,6 @@ app.use(
 );
 
 // Start Node Server
-app.listen(process.env.PORT, () => {
+app.listen(appPort, () => {
   console.log("GraphQL Server Running - :" + process.env.PORT + "/graphql");
 });
