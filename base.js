@@ -1,4 +1,5 @@
 require("dotenv").config();
+
 const express = require("express");
 const unirest = require("unirest");
 const express_graphql = require("express-graphql");
@@ -12,30 +13,32 @@ var schema = buildSchema(`
     }
     
     type calculatedPrice {
-        price: String,
+        price: Float,
         currency: String,
         type: String
     }
 `);
 
+// Get Price Function
 var getPrice = async args => {
+  console.log(args);
+
   var type = args.type,
     margin = args.margin,
-    exchangeRate = args.exchangeRate.toUpperCase(),
+    exchangeRate = args.exchangeRate.toLowerCase(),
     newPrice;
 
-  if (type.toUpperCase() != "SELL" && type.toUpperCase() != "BUY") {
+  if (type.toLowerCase() != "sell" && type.toLowerCase() != "buy") {
     throw "invalid type sent (type can only be buy or sell)";
   } else {
     return new Promise((resolve, reject) => {
       unirest
-        .get("https://api.coindesk.com/v1/bpi/currentprice/USD.json")
+        .get("https://api.coindesk.com/v1/bpi/currentprice/NGN.json")
         .headers({
           Accept: "application/json",
           "Content-Type": "application/json"
         })
         .end(async resp => {
-          console.log(exchangeRate);
           console.log(resp.body);
 
           if (resp && resp.error) {
