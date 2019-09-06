@@ -5,7 +5,7 @@
   "main": "base.js",
   "scripts": {
     "test": "mocha test/*.test.js",
-    "start": "base.js"
+    "start": "node base.js"
   },
   "author": "temitope adesoji",
   "license": "ISC",
