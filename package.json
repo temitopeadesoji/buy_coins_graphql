@@ -4,7 +4,8 @@
   "description": "Test on graphql",
   "main": "base.js",
   "scripts": {
-    "test": "mocha test/*.test.js"
+    "test": "mocha test/*.test.js",
+    "start": "node base.js"
   },
   "author": "temitope adesoji",
   "license": "ISC",
