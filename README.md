@@ -18,7 +18,7 @@ You're going to create a GraphQL API with one query. The query `calculatePrice` 
 
 ### Test Data
 
-- Query
+- **Query:**
   query calculatePrice($type:String!, $margin: Float!, $exchangeRate: String!) {
     calculatePrice(type: $type, margin: $margin, exchangeRate: $exchangeRate){
       price,
@@ -27,7 +27,7 @@ You're going to create a GraphQL API with one query. The query `calculatePrice` 
     }
   }
 
-- Query Variables 
+- **Query Variables:**
   {
     "type": "sell",
     "margin": 0.2,
