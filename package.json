@@ -1,0 +1,23 @@
+{
+  "name": "buy-coins",
+  "version": "1.0.0",
+  "description": "Test on graphql",
+  "main": "base.js",
+  "scripts": {
+    "test": "mocha test/*.test.js"
+  },
+  "author": "temitope adesoji",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "unirest": "^0.6.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "graphql": "^14.5.4",
+    "mocha": "^6.2.0",
+    "supertest": "^4.0.2"
+  }
+}
