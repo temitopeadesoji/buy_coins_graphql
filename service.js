@@ -12,7 +12,7 @@ const getPrice = async args => {
   } else {
     return new Promise((resolve, reject) => {
       unirest
-        .get("https://api.coindesk.com/v1/bpi/currentprice/NGN.json")
+        .get("https://api.coindesk.com/v1/bpi/currentprice/USD.json")
         .headers({
           Accept: "application/json",
           "Content-Type": "application/json"
