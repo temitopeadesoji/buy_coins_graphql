@@ -1,69 +1,18 @@
 require("dotenv").config();
 
 const express = require("express");
-const unirest = require("unirest");
 const express_graphql = require("express-graphql");
-const { buildSchema } = require("graphql");
 const appPort = process.env.PORT || 3000;
 
 // GraphQL Schema
-var schema = buildSchema(`
-    type Query {
-        calculatePrice(type: String, margin: Float, exchangeRate: String):calculatedPrice
-    }
-    
-    type calculatedPrice {
-        price: Float,
-        currency: String,
-        type: String
-    }
-`);
+const apiSchema = require("./schema");
 
-// Get Price Function
-var getPrice = async args => {
-  console.log(args);
-
-  var type = args.type,
-    margin = args.margin,
-    exchangeRate = args.exchangeRate.toLowerCase(),
-    newPrice;
-
-  if (type.toLowerCase() != "sell" && type.toLowerCase() != "buy") {
-    throw "invalid type sent (type can only be buy or sell)";
-  } else {
-    return new Promise((resolve, reject) => {
-      unirest
-        .get("https://api.coindesk.com/v1/bpi/currentprice/NGN.json")
-        .headers({
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        })
-        .end(async resp => {
-          console.log(resp.body);
-
-          if (resp && resp.error) {
-            return reject("invalid type sent (type can only be buy or sell)");
-          } else {
-            payload = JSON.parse(resp.body)["bpi"]["USD"];
-            if (type.toLowerCase() == "sell") {
-              newPrice = payload.rate_float - margin * payload.rate_float;
-            } else if (type.toLowerCase() == "buy") {
-              newPrice = payload.rate_float + margin * payload.rate_float;
-            }
-            return resolve({
-              price: newPrice,
-              currency: "NGN",
-              type: type.toUpperCase()
-            });
-          }
-        });
-    });
-  }
-};
+// Api Service
+const apiService = require("./service");
 
 // Root Resolver
 var root = {
-  calculatePrice: getPrice
+  calculatePrice: apiService.getPrice
 };
 
 // Express Server and GraphQL Endpoint
@@ -71,7 +20,7 @@ var app = express();
 app.use(
   "/graphql",
   express_graphql({
-    schema: schema,
+    schema: apiSchema,
     rootValue: root,
     graphiql: true
   })
@@ -79,5 +28,5 @@ app.use(
 
 // Start Node Server
 app.listen(appPort, () => {
-  console.log("GraphQL Server Running - :" + process.env.PORT + "/graphql");
+  console.log(`GraphQL Server Running - :${appPort}/graphql`);
 });
